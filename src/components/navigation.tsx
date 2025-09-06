@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, ExternalLink } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export function Navigation() {
@@ -47,6 +47,17 @@ export function Navigation() {
               onClick={() => scrollToSection("contact")}
               className="hover:text-primary transition-colors">
               Contact
+            </button>
+            <button
+              onClick={() =>
+                window.open(
+                  "https://drive.google.com/file/d/1llaRDTuCYY_PeDL_g4jlIftV3E0MtdSZ/view?usp=sharing",
+                  "_blank"
+                )
+              }
+              className="hover:text-primary transition-colors flex items-center gap-1">
+              Resume
+              <ExternalLink className="h-3 w-3" />
             </button>
           </div>
 

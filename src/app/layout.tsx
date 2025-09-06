@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://alexchen.dev",
+    url: "https://dhruvsharma.vercel.app/",
     title: "Dhruv Sharma - Frontend Developer",
     description:
       "Frontend Developer specializing in React, Next.js, and performance optimization.",
