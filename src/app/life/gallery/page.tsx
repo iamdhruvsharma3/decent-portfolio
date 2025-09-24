@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { MasonryGrid, DomeGallery } from "@/components/reactbits";
+import { DomeGallery } from "@/components/reactbits";
 import { sanityClient } from "@/lib/sanity/client";
 import { GALLERY_IMAGES_QUERY } from "@/lib/sanity/queries";
 import imageUrlBuilder from "@sanity/image-url";

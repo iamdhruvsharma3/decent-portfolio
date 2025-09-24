@@ -1,9 +1,14 @@
 "use client";
 
+import { Suspense } from "react";
+
+// Force dynamic rendering to avoid prerendering issues
+export const dynamic = "force-dynamic";
+
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function SpotifySuccessPage() {
+function SpotifySuccessContent() {
   const searchParams = useSearchParams();
   const [refreshToken, setRefreshToken] = useState<string | null>(null);
 
@@ -56,5 +61,18 @@ export default function SpotifySuccessPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function SpotifySuccessPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          Loading...
+        </div>
+      }>
+      <SpotifySuccessContent />
+    </Suspense>
   );
 }

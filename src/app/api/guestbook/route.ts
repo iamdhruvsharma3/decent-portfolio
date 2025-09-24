@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
       id: result._id 
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('❌ Error creating guestbook entry:', error);
     
     // Handle specific Sanity errors
@@ -73,12 +73,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json(
-      { 
-        error: 'Failed to create guestbook entry',
-        details: error.message 
-      },
-      { status: 500 }
-    );
+      return NextResponse.json(
+        { 
+          error: 'Failed to create guestbook entry',
+          details: error instanceof Error ? error.message : 'Unknown error' 
+        },
+        { status: 500 }
+      );
   }
 }

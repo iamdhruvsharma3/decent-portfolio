@@ -4,5 +4,5 @@ export type { BentoCardProps, BentoProps, BentoItemProps, BookShelfBentoProps } 
 export { DomeGallery } from "./dome-gallery";
 // export { SplashCursor } from "./SplashCursor";
 export { default as SplashCursor } from "./SplashCursor";
-export { MasonryGrid } from "./masonry-grid";
+// export { MasonryGrid } from "./masonry-grid"; // Removed due to React version conflicts
 export { EnhancedMusicBento } from "./enhanced-music-bento";

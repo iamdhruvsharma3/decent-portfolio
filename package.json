@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "ngrok": "node scripts/start-ngrok.js",
-    "build": "next build --turbopack",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
@@ -27,7 +27,6 @@
     "autoprefixer": "^10.4.21",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "custom-cursor-react": "^1.0.5",
     "framer-motion": "^12.23.16",
     "gsap": "^3.13.0",
     "lucide-react": "^0.542.0",
@@ -37,14 +36,11 @@
     "next-themes": "^0.4.6",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "react-donut-cursor": "^2.0.2",
     "react-international-phone": "^4.6.0",
-    "react-visual-grid": "^0.9.5",
     "sanity": "^4.9.0",
     "sonner": "^2.0.7",
     "styled-components": "^6.1.19",
-    "tailwind-merge": "^3.3.1",
-    "water-drop-cursor": "^2.0.1"
+    "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
