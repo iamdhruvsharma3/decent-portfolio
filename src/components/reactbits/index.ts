@@ -6,3 +6,5 @@ export { DomeGallery } from "./dome-gallery";
 export { default as SplashCursor } from "./SplashCursor";
 // export { MasonryGrid } from "./masonry-grid"; // Removed due to React version conflicts
 export { EnhancedMusicBento } from "./enhanced-music-bento";
+export { LogoLoop } from "./LogoLoop";
+export type { LogoItem, LogoLoopProps } from "./LogoLoop";

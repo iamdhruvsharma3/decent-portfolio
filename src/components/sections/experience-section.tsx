@@ -1,5 +1,19 @@
 import { Badge } from "@/components/ui/badge";
-import { Building, Code2 } from "lucide-react";
+import {
+  Building,
+  Code2,
+  FileCode2,
+  Palette,
+  Database,
+  Package,
+  Zap,
+  Globe,
+  Settings,
+  Layers,
+  Box,
+  Github,
+} from "lucide-react";
+import { LogoLoop, LogoItem } from "@/components/reactbits/LogoLoop";
 
 export function ExperienceSection() {
   const companies = [
@@ -16,26 +30,186 @@ export function ExperienceSection() {
     },
   ];
 
-  const technologies = [
-    "HTML5",
-    "CSS3 (Flexbox, Grid)",
-    "JavaScript (ES6+)",
-    "TypeScript",
-    "React.js",
-    "Next.js",
-    "Zustand",
-    "Redux",
-    "Tailwind CSS",
-    "Bootstrap",
-    "Shadcn UI",
-    "MUI",
-    "Kendo UI",
-    "REST APIs",
-    "Axios",
-    "Webpack",
-    "Babel",
-    "npm",
-    "Yarn",
+  const technologyLogos: LogoItem[] = [
+    {
+      node: (
+        <div className="flex items-center gap-2 text-orange-500">
+          <FileCode2 className="h-6 w-6" />
+          <span className="font-medium">HTML5</span>
+        </div>
+      ),
+      title: "HTML5",
+    },
+    {
+      node: (
+        <div className="flex items-center gap-2 text-blue-500">
+          <Palette className="h-6 w-6" />
+          <span className="font-medium">CSS3</span>
+        </div>
+      ),
+      title: "CSS3",
+    },
+    {
+      node: (
+        <div className="flex items-center gap-2 text-yellow-500">
+          <FileCode2 className="h-6 w-6" />
+          <span className="font-medium">JavaScript</span>
+        </div>
+      ),
+      title: "JavaScript (ES6+)",
+    },
+    {
+      node: (
+        <div className="flex items-center gap-2 text-blue-600">
+          <FileCode2 className="h-6 w-6" />
+          <span className="font-medium">TypeScript</span>
+        </div>
+      ),
+      title: "TypeScript",
+    },
+    {
+      node: (
+        <div className="flex items-center gap-2 text-cyan-500">
+          <Zap className="h-6 w-6" />
+          <span className="font-medium">React.js</span>
+        </div>
+      ),
+      title: "React.js",
+    },
+    {
+      node: (
+        <div className="flex items-center gap-2 text-black dark:text-white">
+          <Globe className="h-6 w-6" />
+          <span className="font-medium">Next.js</span>
+        </div>
+      ),
+      title: "Next.js",
+    },
+    {
+      node: (
+        <div className="flex items-center gap-2 text-purple-500">
+          <Database className="h-6 w-6" />
+          <span className="font-medium">Zustand</span>
+        </div>
+      ),
+      title: "Zustand",
+    },
+    {
+      node: (
+        <div className="flex items-center gap-2 text-purple-600">
+          <Database className="h-6 w-6" />
+          <span className="font-medium">Redux</span>
+        </div>
+      ),
+      title: "Redux",
+    },
+    {
+      node: (
+        <div className="flex items-center gap-2 text-cyan-400">
+          <Palette className="h-6 w-6" />
+          <span className="font-medium">Tailwind CSS</span>
+        </div>
+      ),
+      title: "Tailwind CSS",
+    },
+    {
+      node: (
+        <div className="flex items-center gap-2 text-purple-500">
+          <Layers className="h-6 w-6" />
+          <span className="font-medium">Bootstrap</span>
+        </div>
+      ),
+      title: "Bootstrap",
+    },
+    {
+      node: (
+        <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+          <Box className="h-6 w-6" />
+          <span className="font-medium">Shadcn UI</span>
+        </div>
+      ),
+      title: "Shadcn UI",
+    },
+    {
+      node: (
+        <div className="flex items-center gap-2 text-blue-500">
+          <Layers className="h-6 w-6" />
+          <span className="font-medium">MUI</span>
+        </div>
+      ),
+      title: "MUI",
+    },
+    {
+      node: (
+        <div className="flex items-center gap-2 text-green-500">
+          <Layers className="h-6 w-6" />
+          <span className="font-medium">Kendo UI</span>
+        </div>
+      ),
+      title: "Kendo UI",
+    },
+    {
+      node: (
+        <div className="flex items-center gap-2 text-green-600">
+          <Globe className="h-6 w-6" />
+          <span className="font-medium">REST APIs</span>
+        </div>
+      ),
+      title: "REST APIs",
+    },
+    {
+      node: (
+        <div className="flex items-center gap-2 text-blue-400">
+          <Zap className="h-6 w-6" />
+          <span className="font-medium">Axios</span>
+        </div>
+      ),
+      title: "Axios",
+    },
+    {
+      node: (
+        <div className="flex items-center gap-2 text-blue-500">
+          <Package className="h-6 w-6" />
+          <span className="font-medium">Webpack</span>
+        </div>
+      ),
+      title: "Webpack",
+    },
+    {
+      node: (
+        <div className="flex items-center gap-2 text-yellow-600">
+          <Settings className="h-6 w-6" />
+          <span className="font-medium">Babel</span>
+        </div>
+      ),
+      title: "Babel",
+    },
+    {
+      node: (
+        <div className="flex items-center gap-2 text-red-500">
+          <Package className="h-6 w-6" />
+          <span className="font-medium">npm</span>
+        </div>
+      ),
+      title: "npm",
+    },
+    {
+      node: (
+        <div className="flex items-center gap-2 text-blue-600">
+          <Package className="h-6 w-6" />
+          <span className="font-medium">Yarn</span>
+        </div>
+      ),
+      title: "Yarn",
+    },
+    {
+      node: (
+        <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+          <Github className="h-6 w-6" />
+          <span className="font-medium">Github</span>
+        </div>
+      ),
+    },
   ];
 
   return (
@@ -71,12 +245,18 @@ export function ExperienceSection() {
             Technologies I love working with
           </h3>
 
-          <div className="flex flex-wrap justify-center gap-3">
-            {technologies.map((tech) => (
-              <Badge key={tech} variant="secondary" className="px-4 py-2">
-                {tech}
-              </Badge>
-            ))}
+          <div className="w-full">
+            <LogoLoop
+              logos={technologyLogos}
+              speed={80}
+              direction="left"
+              logoHeight={40}
+              gap={48}
+              pauseOnHover={true}
+              fadeOut={true}
+              scaleOnHover={true}
+              className="py-4"
+            />
           </div>
         </div>
       </div>
