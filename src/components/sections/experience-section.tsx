@@ -1,19 +1,28 @@
 import { Badge } from "@/components/ui/badge";
-import {
-  Building,
-  Code2,
-  FileCode2,
-  Palette,
-  Database,
-  Package,
-  Zap,
-  Globe,
-  Settings,
-  Layers,
-  Box,
-  Github,
-} from "lucide-react";
+import { Building, Code2, Github } from "lucide-react";
 import { LogoLoop, LogoItem } from "@/components/reactbits/LogoLoop";
+import {
+  AxiosIcon,
+  BabelIcon,
+  BootstrapIcon,
+  Css3Icon,
+  GithubIcon,
+  Html5Icon,
+  JsIcon,
+  KendoIcon,
+  MuiIcon,
+  NextIcon,
+  NpmIcon,
+  ReactIcon,
+  ReduxIcon,
+  RestApiIcon,
+  ShadcnIcon,
+  TailwindIcon,
+  TsIcon,
+  WebpackIcon,
+  YarnIcon,
+  ZustandIcon,
+} from "../tech-icons";
 
 export function ExperienceSection() {
   const companies = [
@@ -33,8 +42,8 @@ export function ExperienceSection() {
   const technologyLogos: LogoItem[] = [
     {
       node: (
-        <div className="flex items-center gap-2 text-orange-500">
-          <FileCode2 className="h-6 w-6" />
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <Html5Icon className="h-4 w-4" />
           <span className="font-medium">HTML5</span>
         </div>
       ),
@@ -42,8 +51,8 @@ export function ExperienceSection() {
     },
     {
       node: (
-        <div className="flex items-center gap-2 text-blue-500">
-          <Palette className="h-6 w-6" />
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <Css3Icon className="h-4 w-4" />
           <span className="font-medium">CSS3</span>
         </div>
       ),
@@ -51,8 +60,8 @@ export function ExperienceSection() {
     },
     {
       node: (
-        <div className="flex items-center gap-2 text-yellow-500">
-          <FileCode2 className="h-6 w-6" />
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <JsIcon className="h-4 w-4" />
           <span className="font-medium">JavaScript</span>
         </div>
       ),
@@ -60,8 +69,8 @@ export function ExperienceSection() {
     },
     {
       node: (
-        <div className="flex items-center gap-2 text-blue-600">
-          <FileCode2 className="h-6 w-6" />
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <TsIcon className="h-4 w-4" />
           <span className="font-medium">TypeScript</span>
         </div>
       ),
@@ -69,8 +78,8 @@ export function ExperienceSection() {
     },
     {
       node: (
-        <div className="flex items-center gap-2 text-cyan-500">
-          <Zap className="h-6 w-6" />
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <ReactIcon className="h-4 w-4" />
           <span className="font-medium">React.js</span>
         </div>
       ),
@@ -78,8 +87,8 @@ export function ExperienceSection() {
     },
     {
       node: (
-        <div className="flex items-center gap-2 text-black dark:text-white">
-          <Globe className="h-6 w-6" />
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <NextIcon className="h-4 w-4" />
           <span className="font-medium">Next.js</span>
         </div>
       ),
@@ -87,8 +96,8 @@ export function ExperienceSection() {
     },
     {
       node: (
-        <div className="flex items-center gap-2 text-purple-500">
-          <Database className="h-6 w-6" />
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <ZustandIcon className="h-4 w-4" />
           <span className="font-medium">Zustand</span>
         </div>
       ),
@@ -96,8 +105,8 @@ export function ExperienceSection() {
     },
     {
       node: (
-        <div className="flex items-center gap-2 text-purple-600">
-          <Database className="h-6 w-6" />
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <ReduxIcon className="h-4 w-4" />
           <span className="font-medium">Redux</span>
         </div>
       ),
@@ -105,8 +114,8 @@ export function ExperienceSection() {
     },
     {
       node: (
-        <div className="flex items-center gap-2 text-cyan-400">
-          <Palette className="h-6 w-6" />
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <TailwindIcon className="h-4 w-4" />
           <span className="font-medium">Tailwind CSS</span>
         </div>
       ),
@@ -114,8 +123,8 @@ export function ExperienceSection() {
     },
     {
       node: (
-        <div className="flex items-center gap-2 text-purple-500">
-          <Layers className="h-6 w-6" />
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <BootstrapIcon className="h-4 w-4" />
           <span className="font-medium">Bootstrap</span>
         </div>
       ),
@@ -123,8 +132,8 @@ export function ExperienceSection() {
     },
     {
       node: (
-        <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-          <Box className="h-6 w-6" />
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <ShadcnIcon className="h-4 w-4" />
           <span className="font-medium">Shadcn UI</span>
         </div>
       ),
@@ -132,8 +141,8 @@ export function ExperienceSection() {
     },
     {
       node: (
-        <div className="flex items-center gap-2 text-blue-500">
-          <Layers className="h-6 w-6" />
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <MuiIcon className="h-4 w-4" />
           <span className="font-medium">MUI</span>
         </div>
       ),
@@ -141,8 +150,8 @@ export function ExperienceSection() {
     },
     {
       node: (
-        <div className="flex items-center gap-2 text-green-500">
-          <Layers className="h-6 w-6" />
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <KendoIcon className="h-4 w-4" />
           <span className="font-medium">Kendo UI</span>
         </div>
       ),
@@ -150,8 +159,8 @@ export function ExperienceSection() {
     },
     {
       node: (
-        <div className="flex items-center gap-2 text-green-600">
-          <Globe className="h-6 w-6" />
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <RestApiIcon className="h-4 w-4" />
           <span className="font-medium">REST APIs</span>
         </div>
       ),
@@ -159,8 +168,8 @@ export function ExperienceSection() {
     },
     {
       node: (
-        <div className="flex items-center gap-2 text-blue-400">
-          <Zap className="h-6 w-6" />
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <AxiosIcon className="h-4 w-4" />
           <span className="font-medium">Axios</span>
         </div>
       ),
@@ -168,8 +177,8 @@ export function ExperienceSection() {
     },
     {
       node: (
-        <div className="flex items-center gap-2 text-blue-500">
-          <Package className="h-6 w-6" />
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <WebpackIcon className="h-4 w-4" />
           <span className="font-medium">Webpack</span>
         </div>
       ),
@@ -177,8 +186,8 @@ export function ExperienceSection() {
     },
     {
       node: (
-        <div className="flex items-center gap-2 text-yellow-600">
-          <Settings className="h-6 w-6" />
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <BabelIcon className="h-4 w-4" />
           <span className="font-medium">Babel</span>
         </div>
       ),
@@ -186,8 +195,8 @@ export function ExperienceSection() {
     },
     {
       node: (
-        <div className="flex items-center gap-2 text-red-500">
-          <Package className="h-6 w-6" />
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <NpmIcon className="h-4 w-4" />
           <span className="font-medium">npm</span>
         </div>
       ),
@@ -195,8 +204,8 @@ export function ExperienceSection() {
     },
     {
       node: (
-        <div className="flex items-center gap-2 text-blue-600">
-          <Package className="h-6 w-6" />
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <YarnIcon className="h-4 w-4" />
           <span className="font-medium">Yarn</span>
         </div>
       ),
@@ -204,11 +213,12 @@ export function ExperienceSection() {
     },
     {
       node: (
-        <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-          <Github className="h-6 w-6" />
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <Github className="h-4 w-4" />
           <span className="font-medium">Github</span>
         </div>
       ),
+      title: "Github",
     },
   ];
 
@@ -250,8 +260,8 @@ export function ExperienceSection() {
               logos={technologyLogos}
               speed={80}
               direction="left"
-              logoHeight={40}
-              gap={48}
+              logoHeight={24}
+              gap={32}
               pauseOnHover={true}
               fadeOut={true}
               scaleOnHover={true}
