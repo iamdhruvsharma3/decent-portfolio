@@ -129,7 +129,7 @@ export function HeroSection() {
           <div className="relative group">
             <div className="relative w-56 h-56 xs:w-64 xs:h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-80 lg:h-80 xl:w-96 xl:h-96 transition-transform duration-500 ease-out group-hover:scale-105">
               <Image
-                src="/profile-img.JPG"
+                src="/profile-img2.jpg"
                 alt="Dhruv Sharma - Frontend Developer"
                 fill
                 className="object-cover rounded-2xl shadow-lg will-change-transform transition-all duration-500 ease-out group-hover:shadow-2xl"

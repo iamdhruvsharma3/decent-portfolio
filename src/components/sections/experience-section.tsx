@@ -3,7 +3,7 @@ import { Building, Code2 } from "lucide-react";
 
 export function ExperienceSection() {
   const companies = [
-    { name: "Cars24", period: "Jan 2025 - Present", title: "Software Intern" },
+    { name: "Cars24", period: "Jan 2025 - Present", title: "SDE-1" },
     {
       name: "Innobyte Services",
       period: "Sept 2024 - Nov 2024",
@@ -47,7 +47,7 @@ export function ExperienceSection() {
           built with
         </h2>
 
-        <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
           {companies.map((company) => (
             <div key={company.name} className="text-center space-y-2">
               <div className="flex items-center justify-center gap-2 text-xl md:text-2xl font-semibold text-muted-foreground">
