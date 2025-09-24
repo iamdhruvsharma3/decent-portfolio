@@ -8,7 +8,8 @@
     "ngrok": "node scripts/start-ngrok.js",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "verify-env": "node scripts/verify-env.js"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
