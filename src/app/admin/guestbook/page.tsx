@@ -26,11 +26,28 @@ export default function AdminGuestbook() {
 
   const fetchEntries = async () => {
     try {
-      const response = await fetch("/api/admin/entries");
+      const token = sessionStorage.getItem("admin_auth");
+      if (!token) {
+        console.error("No authentication token found");
+        setEntries([]);
+        return;
+      }
+
+      const response = await fetch("/api/admin/entries", {
+        headers: {
+          Authorization: `Basic ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch entries: ${response.status}`);
+      }
+
       const data = await response.json();
-      setEntries(data.entries);
+      setEntries(Array.isArray(data.entries) ? data.entries : []);
     } catch (error) {
       console.error("Error fetching entries:", error);
+      setEntries([]); // Set empty array to prevent undefined errors
     } finally {
       setLoading(false);
     }
@@ -38,14 +55,20 @@ export default function AdminGuestbook() {
 
   const toggleApproval = async (entryId: string, currentStatus: boolean) => {
     try {
+      const token = sessionStorage.getItem("admin_auth");
       const response = await fetch("/api/admin/toggle-approval", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${token}`,
+        },
         body: JSON.stringify({ entryId, approved: !currentStatus }),
       });
 
       if (response.ok) {
         await fetchEntries(); // Refresh the list
+      } else {
+        console.error("Failed to toggle approval:", response.status);
       }
     } catch (error) {
       console.error("Error toggling approval:", error);
@@ -56,14 +79,20 @@ export default function AdminGuestbook() {
     if (!confirm("Are you sure you want to delete this entry?")) return;
 
     try {
+      const token = sessionStorage.getItem("admin_auth");
       const response = await fetch("/api/admin/delete-entry", {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${token}`,
+        },
         body: JSON.stringify({ entryId }),
       });
 
       if (response.ok) {
         await fetchEntries(); // Refresh the list
+      } else {
+        console.error("Failed to delete entry:", response.status);
       }
     } catch (error) {
       console.error("Error deleting entry:", error);
@@ -81,67 +110,75 @@ export default function AdminGuestbook() {
 
         <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-950 rounded-lg">
           <h2 className="font-semibold mb-2">Summary</h2>
-          <p>Total Entries: {entries.length}</p>
-          <p>Approved: {entries.filter((e) => e.approved).length}</p>
-          <p>Pending: {entries.filter((e) => !e.approved).length}</p>
+          <p>Total Entries: {entries?.length || 0}</p>
+          <p>Approved: {entries?.filter((e) => e.approved)?.length || 0}</p>
+          <p>Pending: {entries?.filter((e) => !e.approved)?.length || 0}</p>
         </div>
 
         <div className="space-y-4">
-          {entries.map((entry) => (
-            <div
-              key={entry.id}
-              className={`p-6 border rounded-lg ${
-                entry.approved
-                  ? "bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800"
-                  : "bg-yellow-50 dark:bg-yellow-950 border-yellow-200 dark:border-yellow-800"
-              }`}>
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h3 className="font-semibold text-lg">{entry.name}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {entry.email} • {entry.location} •{" "}
-                    {new Date(entry.submittedAt).toLocaleString()}
-                  </p>
-                  {entry.ipAddress && (
-                    <p className="text-xs text-muted-foreground">
-                      IP: {entry.ipAddress}
+          {entries?.length > 0 ? (
+            entries.map((entry) => (
+              <div
+                key={entry.id}
+                className={`p-6 border rounded-lg ${
+                  entry.approved
+                    ? "bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800"
+                    : "bg-yellow-50 dark:bg-yellow-950 border-yellow-200 dark:border-yellow-800"
+                }`}>
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <h3 className="font-semibold text-lg">{entry.name}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {entry.email} • {entry.location} •{" "}
+                      {new Date(entry.submittedAt).toLocaleString()}
                     </p>
-                  )}
+                    {entry.ipAddress && (
+                      <p className="text-xs text-muted-foreground">
+                        IP: {entry.ipAddress}
+                      </p>
+                    )}
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      onClick={() => toggleApproval(entry.id, entry.approved)}
+                      variant={entry.approved ? "outline" : "default"}
+                      size="sm">
+                      {entry.approved ? "Unapprove" : "Approve"}
+                    </Button>
+                    <Button
+                      onClick={() => deleteEntry(entry.id)}
+                      variant="destructive"
+                      size="sm">
+                      Delete
+                    </Button>
+                  </div>
                 </div>
-                <div className="flex gap-2">
-                  <Button
-                    onClick={() => toggleApproval(entry.id, entry.approved)}
-                    variant={entry.approved ? "outline" : "default"}
-                    size="sm">
-                    {entry.approved ? "Unapprove" : "Approve"}
-                  </Button>
-                  <Button
-                    onClick={() => deleteEntry(entry.id)}
-                    variant="destructive"
-                    size="sm">
-                    Delete
-                  </Button>
+
+                <div className="bg-white dark:bg-gray-800 p-4 rounded border">
+                  <p className="text-sm">{entry.message}</p>
                 </div>
-              </div>
 
-              <div className="bg-white dark:bg-gray-800 p-4 rounded border">
-                <p className="text-sm">{entry.message}</p>
+                {entry.website && (
+                  <p className="mt-2 text-sm">
+                    Website:{" "}
+                    <a
+                      href={entry.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline">
+                      {entry.website}
+                    </a>
+                  </p>
+                )}
               </div>
-
-              {entry.website && (
-                <p className="mt-2 text-sm">
-                  Website:{" "}
-                  <a
-                    href={entry.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline">
-                    {entry.website}
-                  </a>
-                </p>
-              )}
+            ))
+          ) : (
+            <div className="text-center py-8">
+              <p className="text-muted-foreground">
+                No guestbook entries found.
+              </p>
             </div>
-          ))}
+          )}
         </div>
       </div>
     </div>
