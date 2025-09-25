@@ -5,6 +5,7 @@ import Link from "next/link";
 import { sanityClient } from "@/lib/sanity/client";
 import { BLOG_POSTS_QUERY } from "@/lib/sanity/queries";
 import { urlFor } from "@/lib/sanity/config";
+import { AdminAccess } from "@/components/admin-access";
 
 interface BlogPost {
   _id: string;
@@ -70,11 +71,11 @@ export default function BlogsPage() {
               Blog posts will appear here once they are published through the
               CMS.
             </p>
-            <a
-              href="/dashboard"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
-              Go to Studio →
-            </a>
+            <AdminAccess>
+              <button className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
+                🔒 Admin: Go to Studio →
+              </button>
+            </AdminAccess>
           </div>
         ) : (
           <>

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { sanityClient } from "@/lib/sanity/client";
 import { NOW_PAGE_QUERY } from "@/lib/sanity/queries";
 import { urlFor } from "@/lib/sanity/config";
+import { AdminAccess } from "@/components/admin-access";
 
 interface NowContent {
   _id: string;
@@ -368,11 +369,11 @@ export default function NowPage() {
               <p className="text-muted-foreground mb-4">
                 No current status data available. Add content through the CMS.
               </p>
-              <a
-                href="/dashboard"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
-                Go to Studio →
-              </a>
+              <AdminAccess>
+                <button className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
+                  🔒 Admin: Go to Studio →
+                </button>
+              </AdminAccess>
             </div>
           </div>
         )}

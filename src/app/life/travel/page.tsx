@@ -5,6 +5,7 @@ import { DomeGallery } from "@/components/reactbits";
 import { sanityClient } from "@/lib/sanity/client";
 import { TRAVEL_POSTS_QUERY, TRAVEL_POST_QUERY } from "@/lib/sanity/queries";
 import { urlFor } from "@/lib/sanity/config";
+import { AdminAccess } from "@/components/admin-access";
 
 interface TravelPost {
   _id: string;
@@ -104,11 +105,11 @@ export default function TravelPage() {
               Travel stories will appear here once they are added through the
               CMS.
             </p>
-            <a
-              href="/dashboard"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
-              Go to Studio →
-            </a>
+            <AdminAccess>
+              <button className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
+                🔒 Admin: Go to Studio →
+              </button>
+            </AdminAccess>
           </div>
         ) : (
           <div className="space-y-20">

@@ -11,6 +11,7 @@ import { sanityClient } from "@/lib/sanity/client";
 import { HOBBIES_QUERY, NOW_PAGE_QUERY } from "@/lib/sanity/queries";
 import { urlFor } from "@/lib/sanity/config";
 import Link from "next/link";
+import { AdminAccess } from "@/components/admin-access";
 
 interface Hobby {
   _id: string;
@@ -224,11 +225,11 @@ export default function HobbiesPage() {
               <p className="text-muted-foreground mb-8 max-w-md mx-auto">
                 Your hobby data will appear here once added through the CMS.
               </p>
-              <Link
-                href="/dashboard"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
-                Go to Studio →
-              </Link>
+              <AdminAccess>
+                <button className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
+                  🔒 Admin: Go to Studio →
+                </button>
+              </AdminAccess>
             </div>
           </div>
         )}

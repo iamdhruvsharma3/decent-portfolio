@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navigation } from "@/components/navigation";
+import { AuthWrapper } from "@/components/auth-wrapper";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -65,7 +66,7 @@ export default function RootLayout({
           <div className="relative min-h-screen">
             <Navigation />
             <SpeedInsights />
-            {children}
+            <AuthWrapper>{children}</AuthWrapper>
           </div>
           <Analytics />
         </ThemeProvider>

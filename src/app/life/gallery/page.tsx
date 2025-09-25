@@ -5,6 +5,7 @@ import { DomeGallery } from "@/components/reactbits";
 import { sanityClient } from "@/lib/sanity/client";
 import { GALLERY_IMAGES_QUERY } from "@/lib/sanity/queries";
 import imageUrlBuilder from "@sanity/image-url";
+import { AdminAccess } from "@/components/admin-access";
 
 // Initialize image URL builder
 const builder = imageUrlBuilder(sanityClient);
@@ -166,11 +167,11 @@ export default function GalleryPage() {
             <p className="text-muted-foreground mb-4">
               Upload some images through your Sanity Studio to see them here!
             </p>
-            <a
-              href="/dashboard"
-              className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
-              Go to Studio →
-            </a>
+            <AdminAccess>
+              <button className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
+                🔒 Admin: Go to Studio →
+              </button>
+            </AdminAccess>
           </div>
         ) : (
           <>

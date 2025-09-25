@@ -9,6 +9,7 @@ import { SplashCursor } from "@/components/reactbits";
 import { sanityClient } from "@/lib/sanity/client";
 import { GUESTBOOK_ENTRIES_QUERY } from "@/lib/sanity/queries";
 import { toast, Toaster } from "sonner";
+import { AdminAccess } from "@/components/admin-access";
 
 interface GuestbookEntry {
   _id: string;
@@ -272,11 +273,20 @@ export default function GuestbookPage() {
       <SplashCursor />
       <section className="py-20 px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
         <div className="mb-16">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">Guestbook</h1>
-          <p className="text-lg text-muted-foreground">
-            Leave a note, share your thoughts, or just say hello! Your message
-            will be displayed below for others to see.
-          </p>
+          <div className="flex items-start justify-between">
+            <div>
+              <h1 className="text-4xl md:text-6xl font-bold mb-4">Guestbook</h1>
+              <p className="text-lg text-muted-foreground">
+                Leave a note, share your thoughts, or just say hello! Your
+                message will be displayed below for others to see.
+              </p>
+            </div>
+            <AdminAccess redirectTo="/admin/guestbook">
+              <button className="text-xs text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md hover:bg-muted/50">
+                🔒 Admin Panel
+              </button>
+            </AdminAccess>
+          </div>
         </div>
 
         {/* Success Message */}
