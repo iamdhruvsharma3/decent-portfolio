@@ -215,14 +215,6 @@ export default function BlogsPage() {
                 ))}
               </div>
             </div>
-
-            {/* Success message */}
-            <div className="mt-16 p-6 bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 rounded-xl text-center">
-              <p className="text-green-700 dark:text-green-300 text-sm">
-                ✅ Blog section is now connected to your CMS! Showing{" "}
-                {blogPosts.length} {blogPosts.length === 1 ? "post" : "posts"}.
-              </p>
-            </div>
           </>
         )}
       </section>

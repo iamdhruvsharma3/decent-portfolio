@@ -4,14 +4,13 @@ import { useState, useEffect } from "react";
 import {
   MagicBento,
   BentoItem,
-  BookShelfBento,
   EnhancedMusicBento,
 } from "@/components/reactbits";
 import { sanityClient } from "@/lib/sanity/client";
 import { HOBBIES_QUERY, NOW_PAGE_QUERY } from "@/lib/sanity/queries";
 import { urlFor } from "@/lib/sanity/config";
-import Link from "next/link";
 import { AdminAccess } from "@/components/admin-access";
+import Image from "next/image";
 
 interface Hobby {
   _id: string;
@@ -97,17 +96,6 @@ export default function HobbiesPage() {
     return icons[type] || "🎯";
   };
 
-  const processBooks = (cmsBooks: BookData[]) => {
-    return cmsBooks.map((book) => ({
-      title: book.title,
-      author: book.author,
-      cover: book.cover
-        ? urlFor(book.cover.asset).width(200).height(300).url()
-        : "/profile-img.JPG",
-      progress: book.progress || 0,
-    }));
-  };
-
   if (loading) {
     return (
       <main className="min-h-screen pt-16 flex items-center justify-center">
@@ -130,64 +118,135 @@ export default function HobbiesPage() {
           </p>
         </div>
 
-        {/* Books Section */}
-        {books.length > 0 && (
-          <div className="mb-12">
-            <h2 className="text-2xl font-bold mb-6">📚 Reading Corner</h2>
-            <BookShelfBento books={processBooks(books)} />
-          </div>
-        )}
-
-        {/* Music Section - Enhanced with Spotify */}
+        {/* Music Section - Enhanced with Spotify (Top Priority) */}
         <div className="mb-12">
           <h2 className="text-2xl font-bold mb-6">🎵 Music Vibes</h2>
           <EnhancedMusicBento />
         </div>
 
-        {/* Hobbies from CMS */}
-        {hobbies.length > 0 ? (
+        {/* Combined Interests Section - Books + Hobbies in MagicBento */}
+        {books.length > 0 || hobbies.length > 0 ? (
           <div className="mb-12">
-            <h2 className="text-2xl font-bold mb-6">🎯 Current Interests</h2>
+            <h2 className="text-2xl font-bold mb-6">
+              📚🎯 Interests & Hobbies
+            </h2>
             <MagicBento useDefaultCards={false}>
+              {/* Books as Bento Items */}
+              {books.map((book, index) => (
+                <BentoItem
+                  key={`book-${index}`}
+                  colSpan={2}
+                  rowSpan={2}
+                  delay={index}
+                  className="min-h-[400px] md:min-h-[450px] lg:min-h-[500px]">
+                  <div className="h-full flex flex-col p-4 md:p-6 lg:p-8">
+                    <div className="flex items-center gap-3 mb-6 md:mb-8">
+                      <span className="text-3xl md:text-4xl lg:text-5xl">
+                        📚
+                      </span>
+                      <h3 className="font-bold text-lg md:text-xl lg:text-2xl">
+                        Currently Reading
+                      </h3>
+                    </div>
+
+                    {book.cover && (
+                      <div className="flex-1 mb-4 md:mb-6 rounded-xl overflow-hidden bg-muted relative max-h-48 md:max-h-56 lg:max-h-64">
+                        <Image
+                          src={urlFor(book.cover.asset)
+                            .width(300)
+                            .height(400)
+                            .url()}
+                          alt={book.title}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    )}
+
+                    <div className="space-y-3 md:space-y-4 mt-auto">
+                      <h4 className="font-bold text-base md:text-lg lg:text-xl line-clamp-2">
+                        {book.title}
+                      </h4>
+                      {book.author && (
+                        <p className="text-base md:text-lg text-muted-foreground">
+                          by {book.author}
+                        </p>
+                      )}
+                      {book.progress !== undefined && (
+                        <div className="mt-4 md:mt-6">
+                          <div className="flex justify-between items-center mb-3 md:mb-4">
+                            <span className="text-base md:text-lg text-muted-foreground font-medium">
+                              Progress
+                            </span>
+                            <span className="text-base md:text-lg text-primary font-bold">
+                              {book.progress}%
+                            </span>
+                          </div>
+                          <div className="w-full bg-muted rounded-full h-3 md:h-4">
+                            <div
+                              className="bg-primary h-3 md:h-4 rounded-full transition-all duration-300"
+                              style={{ width: `${book.progress}%` }}
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </BentoItem>
+              ))}
+
+              {/* Hobbies as Bento Items */}
               {hobbies.map((hobby, index) => (
                 <BentoItem
                   key={hobby._id}
-                  colSpan={hobby.featured ? 2 : 1}
-                  delay={index}>
-                  <div className="h-full flex flex-col">
-                    <div className="flex items-center gap-2 mb-4">
-                      <span className="text-2xl">
+                  colSpan={hobby.featured ? 3 : 2}
+                  rowSpan={hobby.featured ? 2 : 1}
+                  delay={books.length + index}
+                  className={`${
+                    hobby.featured
+                      ? "min-h-[500px] md:min-h-[550px] lg:min-h-[600px]"
+                      : "min-h-[400px] md:min-h-[450px] lg:min-h-[500px]"
+                  }`}>
+                  <div className="h-full flex flex-col p-4 md:p-6 lg:p-8">
+                    <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8">
+                      <span className="text-3xl md:text-4xl lg:text-5xl">
                         {getHobbyIcon(hobby.type)}
                       </span>
                       <h3
-                        className={`font-bold ${hobby.featured ? "text-xl" : "text-lg"}`}>
+                        className={`font-bold ${
+                          hobby.featured
+                            ? "text-xl md:text-2xl lg:text-3xl"
+                            : "text-lg md:text-xl lg:text-2xl"
+                        }`}>
                         {hobby.title}
                       </h3>
                     </div>
-                    <div className="flex-1">
-                      <p className="text-muted-foreground text-sm mb-4">
-                        {hobby.description}
-                      </p>
 
+                    <div className="flex-1 flex flex-col justify-center space-y-4">
                       {/* Current Status */}
                       {hobby.currentStatus && (
-                        <p className="text-xs text-primary mb-2">
-                          Status: {hobby.currentStatus}
-                        </p>
+                        <div className="p-4 bg-primary/10 rounded-xl">
+                          <p className="text-sm md:text-base text-primary font-medium leading-relaxed break-words">
+                            <span className="font-semibold">Status:</span>{" "}
+                            {hobby.currentStatus}
+                          </p>
+                        </div>
                       )}
 
                       {/* Stats */}
                       {hobby.stats && Object.keys(hobby.stats).length > 0 && (
-                        <div className="grid grid-cols-2 gap-2 mt-auto">
+                        <div className="grid grid-cols-3 gap-3">
                           {Object.entries(hobby.stats)
-                            .slice(0, 4)
+                            .slice(0, 3)
                             .map(([key, value]) => (
                               <div
                                 key={key}
-                                className="text-center p-2 bg-muted rounded text-xs">
-                                <p className="font-medium capitalize">{key}</p>
-                                <p className="text-muted-foreground">
+                                className="text-center p-3 bg-muted rounded-xl">
+                                <p className="font-bold text-lg md:text-xl mb-2 break-words">
                                   {String(value)}
+                                </p>
+                                <p className="text-xs md:text-sm text-muted-foreground capitalize leading-tight break-words">
+                                  {key.replace(/([A-Z])/g, " $1").trim()}
                                 </p>
                               </div>
                             ))}
@@ -196,14 +255,14 @@ export default function HobbiesPage() {
 
                       {/* Links */}
                       {hobby.links && hobby.links.length > 0 && (
-                        <div className="mt-2 flex flex-wrap gap-1">
+                        <div className="flex flex-wrap gap-3 justify-center">
                           {hobby.links.slice(0, 2).map((link, linkIndex) => (
                             <a
                               key={linkIndex}
                               href={link.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-xs px-2 py-1 bg-primary/10 text-primary rounded hover:bg-primary/20 transition-colors">
+                              className="text-sm px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium break-words">
                               {link.title}
                             </a>
                           ))}
@@ -218,12 +277,17 @@ export default function HobbiesPage() {
         ) : (
           // Empty state with placeholder
           <div className="mb-12">
-            <h2 className="text-2xl font-bold mb-6">🎯 Current Interests</h2>
+            <h2 className="text-2xl font-bold mb-6">
+              📚🎯 Interests & Hobbies
+            </h2>
             <div className="text-center py-20">
-              <div className="text-6xl mb-4">🎯</div>
-              <h3 className="text-2xl font-bold mb-4">No hobbies added yet</h3>
+              <div className="text-6xl mb-4">📚🎯</div>
+              <h3 className="text-2xl font-bold mb-4">
+                No interests added yet
+              </h3>
               <p className="text-muted-foreground mb-8 max-w-md mx-auto">
-                Your hobby data will appear here once added through the CMS.
+                Your books and hobby data will appear here once added through
+                the CMS.
               </p>
               <AdminAccess>
                 <button className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
@@ -231,18 +295,6 @@ export default function HobbiesPage() {
                 </button>
               </AdminAccess>
             </div>
-          </div>
-        )}
-
-        {/* Success message */}
-        {hobbies.length > 0 && (
-          <div className="p-6 bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 rounded-xl text-center">
-            <p className="text-green-700 dark:text-green-300 text-sm">
-              ✅ Hobbies section is now connected to your CMS! Showing{" "}
-              {hobbies.length} {hobbies.length === 1 ? "hobby" : "hobbies"}
-              {books.length > 0 && `, ${books.length} books`}, and live Spotify
-              music data.
-            </p>
           </div>
         )}
       </section>

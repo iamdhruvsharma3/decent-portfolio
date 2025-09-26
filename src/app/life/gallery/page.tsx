@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { DomeGallery } from "@/components/reactbits";
+import { Masonry, DomeGallery } from "@/components/reactbits";
 import { sanityClient } from "@/lib/sanity/client";
 import { GALLERY_IMAGES_QUERY } from "@/lib/sanity/queries";
 import imageUrlBuilder from "@sanity/image-url";
@@ -10,7 +10,7 @@ import { AdminAccess } from "@/components/admin-access";
 // Initialize image URL builder
 const builder = imageUrlBuilder(sanityClient);
 
-function urlFor(source: any) {
+function urlFor(source: { _id: string; url: string }) {
   return builder.image(source);
 }
 
@@ -29,16 +29,6 @@ interface GalleryImage {
   featured: boolean;
 }
 
-interface ProcessedImage {
-  src: string;
-  alt: string;
-  width: number;
-  height: number;
-  category: string;
-  title: string;
-  caption?: string;
-}
-
 // Categories will be dynamically generated from CMS data
 
 // Helper function to capitalize category names
@@ -49,9 +39,7 @@ const capitalizeCategory = (category: string) => {
 
 export default function GalleryPage() {
   const [viewMode, setViewMode] = useState<"masonry" | "dome">("masonry");
-  const [selectedImage, setSelectedImage] = useState<ProcessedImage | null>(
-    null
-  );
+  // Removed selectedImage state as it's not used with the new Masonry component
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
@@ -74,9 +62,7 @@ export default function GalleryPage() {
     fetchImages();
   }, []);
 
-  const handleImageClick = (image: ProcessedImage, index: number) => {
-    setSelectedImage({ ...image, index });
-  };
+  // Image click handling is now done by the Masonry component directly
 
   // Convert Sanity images to component format
   const allProcessedImages = galleryImages.map((img) => {
@@ -99,25 +85,49 @@ export default function GalleryPage() {
       ? allProcessedImages
       : allProcessedImages.filter((img) => img.category === selectedCategory);
 
+  // Transform images for Masonry component with varied dimensions
+  const masonryItems = processedImages.map((img, index) => {
+    // Create different aspect ratios for aesthetic variety (much larger sizes)
+    const aspectRatios = [
+      { width: 500, height: 330 }, // Landscape 3:2
+      { width: 420, height: 590 }, // Portrait 5:7
+      { width: 450, height: 450 }, // Square 1:1
+      { width: 550, height: 310 }, // Wide landscape 16:9
+      { width: 380, height: 630 }, // Tall portrait 3:5
+      { width: 500, height: 400 }, // Landscape 5:4
+    ];
+
+    // Use a deterministic approach based on index to ensure consistency
+    const ratio = aspectRatios[index % aspectRatios.length];
+
+    return {
+      id: `image-${index}`,
+      img: img.src,
+      url: img.src, // For now, clicking will open the image
+      height: ratio.height,
+    };
+  });
+
   // Generate categories dynamically from CMS data
   const categories = Array.from(
     new Set(galleryImages.map((img) => img.category))
   ).filter(Boolean);
 
-  // Filter dome gallery images as well
-  const allDomeGalleryImages = galleryImages.map((img) => ({
-    id: img._id,
-    src: urlFor(img.image.asset).width(1200).height(800).url(),
+  // Filter dome gallery images based on category
+  const filteredGalleryImages =
+    selectedCategory === "All"
+      ? galleryImages
+      : galleryImages.filter((img) => img.category === selectedCategory);
+
+  // Transform images for 3D DomeGallery component (expects ImageItem[])
+  const domeGalleryImages = filteredGalleryImages.map((img) => ({
+    src: urlFor(img.image.asset).width(800).height(600).url(),
     alt: img.image.alt || img.title,
-    title: img.title,
-    description: img.caption || img.category,
-    category: img.category,
   }));
 
-  const domeGalleryImages =
-    selectedCategory === "All"
-      ? allDomeGalleryImages
-      : allDomeGalleryImages.filter((img) => img.category === selectedCategory);
+  // Debug: Log the data to see what's being passed
+  console.log("Dome Gallery Images:", domeGalleryImages);
+  console.log("Sample image URL:", domeGalleryImages[0]?.src);
 
   return (
     <main className="min-h-screen pt-16">
@@ -207,73 +217,58 @@ export default function GalleryPage() {
                   })}
                 </div>
 
-                {/* Simple Grid Fallback */}
+                {/* Masonry Grid */}
                 {processedImages.length === 0 ? (
                   <div className="text-center py-12">
                     <p className="text-muted-foreground">
-                      No images found in the "
-                      {capitalizeCategory(selectedCategory)}" category.
+                      No images found in the &ldquo;
+                      {capitalizeCategory(selectedCategory)}&rdquo; category.
                     </p>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {processedImages.map((img, index) => (
-                      <div
-                        key={index}
-                        className="group cursor-pointer overflow-hidden rounded-lg bg-card border hover:shadow-lg transition-all duration-300"
-                        onClick={() => handleImageClick(img, index)}>
-                        <div className="aspect-square overflow-hidden">
-                          <img
-                            src={img.src}
-                            alt={img.alt}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                        </div>
-                        {img.title && (
-                          <div className="p-4">
-                            <h3 className="font-medium text-sm">{img.title}</h3>
-                            {img.caption && (
-                              <p className="text-xs text-muted-foreground mt-1">
-                                {img.caption}
-                              </p>
-                            )}
-                            {img.category && (
-                              <span className="inline-block mt-2 px-2 py-1 bg-primary/10 text-primary text-xs rounded">
-                                {img.category}
-                              </span>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    ))}
+                  <div
+                    style={{ height: "1600px", minHeight: "1400px" }}
+                    className="w-full">
+                    <Masonry
+                      items={masonryItems}
+                      ease="power3.out"
+                      duration={0.6}
+                      stagger={0.05}
+                      animateFrom="bottom"
+                      scaleOnHover={true}
+                      hoverScale={0.95}
+                      blurToFocus={true}
+                      colorShiftOnHover={false}
+                    />
                   </div>
                 )}
-
-                {/* Original MasonryGrid (commented out for debugging) */}
-                {/* <MasonryGrid
-                  images={processedImages}
-                  categories={categories}
-                  onImageClick={handleImageClick}
-                /> */}
               </div>
             ) : domeGalleryImages.length === 0 ? (
               <div className="text-center py-12">
                 <p className="text-muted-foreground">
-                  No images found in the "{capitalizeCategory(selectedCategory)}
-                  " category.
+                  No images found in the &ldquo;
+                  {capitalizeCategory(selectedCategory)}
+                  &rdquo; category.
                 </p>
               </div>
             ) : (
-              <DomeGallery images={domeGalleryImages} />
+              <div
+                style={{
+                  height: "600px",
+                  width: "100%",
+                  position: "relative",
+                  overflow: "hidden",
+                }}>
+                <DomeGallery
+                  images={
+                    domeGalleryImages.length > 0 ? domeGalleryImages : undefined
+                  }
+                  fit={0.5}
+                  grayscale={false}
+                  segments={25}
+                />
+              </div>
             )}
-
-            {/* Success message */}
-            <div className="mt-12 p-6 bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 rounded-xl text-center">
-              <p className="text-green-700 dark:text-green-300 text-sm">
-                ✅ Gallery is now connected to your CMS! Showing{" "}
-                {galleryImages.length} image(s) from Sanity Studio.
-              </p>
-            </div>
           </>
         )}
       </section>
