@@ -22,20 +22,31 @@ const getAccessToken = async (): Promise<string> => {
     }),
   });
 
+  const text = await response.text();
+
   if (!response.ok) {
-    console.error('Failed to get Spotify access token:', response.status);
-    throw new Error('Failed to get access token');
+    console.error('Failed to get Spotify access token:', response.status, text);
+    throw new Error(`Failed to get access token: ${response.status}`);
   }
 
-  const data = await response.json();
-  return data.access_token;
+  if (!text || text.trim() === '') {
+    throw new Error('Empty response from Spotify token endpoint');
+  }
+
+  try {
+    const data = JSON.parse(text);
+    return data.access_token;
+  } catch (e) {
+    console.error('Failed to parse token response:', text);
+    throw new Error('Invalid JSON from Spotify token endpoint');
+  }
 };
 
 // Generic Spotify API call using YOUR credentials
 const spotifyApi = async (endpoint: string) => {
   try {
     const access_token = await getAccessToken();
-    
+
     const response = await fetch(`${SPOTIFY_API_BASE}${endpoint}`, {
       headers: {
         Authorization: `Bearer ${access_token}`,
@@ -44,12 +55,23 @@ const spotifyApi = async (endpoint: string) => {
       next: { revalidate: 120 }
     });
 
+    // Handle 204 No Content (e.g., when nothing is playing)
+    if (response.status === 204) {
+      return null;
+    }
+
     if (!response.ok) {
       console.error(`Spotify API error for ${endpoint}:`, response.status);
       return null;
     }
 
-    return response.json();
+    // Check if response has content before parsing
+    const text = await response.text();
+    if (!text || text.trim() === '') {
+      return null;
+    }
+
+    return JSON.parse(text);
   } catch (error) {
     console.error('Spotify API call failed:', error);
     return null;
