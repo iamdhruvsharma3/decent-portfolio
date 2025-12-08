@@ -32,7 +32,7 @@
     "framer-motion": "^12.23.16",
     "gsap": "^3.13.0",
     "lucide-react": "^0.542.0",
-    "next": "15.5.2",
+    "next": "15.5.7",
     "next-auth": "^4.24.11",
     "next-sanity": "^11.1.1",
     "next-themes": "^0.4.6",
