@@ -208,12 +208,45 @@ export function EnhancedMusicBento() {
       <div className="relative">
         {/* animated blobs behind */}
         <BackgroundBlobs />
-        <div className="relative z-10 bg-gradient-to-br from-emerald-600 to-black/70 rounded-3xl p-6 text-white shadow-2xl backdrop-blur-xl animate-pulse">
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-white/20 rounded-lg"></div>
-            <div className="flex-1">
-              <div className="h-4 bg-white/20 rounded mb-2"></div>
-              <div className="h-3 bg-white/20 rounded w-2/3"></div>
+        <div className="relative z-10 bg-gradient-to-br from-emerald-600 to-black/70 rounded-3xl p-8 text-white shadow-2xl backdrop-blur-xl animate-pulse min-h-[400px]">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-3">
+              <div className="text-4xl">🎶</div>
+              <div className="h-8 bg-white/20 rounded w-32"></div>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="md:col-span-2 lg:col-span-1 rounded-2xl bg-black/20 p-6 min-h-[280px]">
+              <div className="h-4 bg-white/20 rounded mb-4 w-24"></div>
+              <div className="flex flex-col items-center gap-3">
+                <div className="w-24 h-24 bg-white/20 rounded-xl"></div>
+                <div className="space-y-2 w-full">
+                  <div className="h-4 bg-white/20 rounded"></div>
+                  <div className="h-3 bg-white/20 rounded w-2/3"></div>
+                </div>
+              </div>
+            </div>
+            <div className="rounded-2xl bg-black/20 p-6 min-h-[280px]">
+              <div className="h-4 bg-white/20 rounded mb-4 w-20"></div>
+              <div className="space-y-3">
+                <div className="h-3 bg-white/20 rounded"></div>
+                <div className="h-3 bg-white/20 rounded w-3/4"></div>
+                <div className="h-3 bg-white/20 rounded w-1/2"></div>
+              </div>
+            </div>
+            <div className="rounded-2xl bg-black/20 p-6 min-h-[280px]">
+              <div className="h-4 bg-white/20 rounded mb-4 w-16"></div>
+              <div className="space-y-2">
+                <div className="h-8 bg-white/20 rounded"></div>
+                <div className="h-4 bg-white/20 rounded w-4/5"></div>
+              </div>
+            </div>
+            <div className="rounded-2xl bg-black/20 p-6 min-h-[280px]">
+              <div className="h-4 bg-white/20 rounded mb-4 w-20"></div>
+              <div className="space-y-2">
+                <div className="h-6 bg-white/20 rounded"></div>
+                <div className="h-4 bg-white/20 rounded w-3/4"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -225,14 +258,16 @@ export function EnhancedMusicBento() {
     return (
       <div className="relative">
         <BackgroundBlobs />
-        <div className="relative z-10 bg-gradient-to-br from-emerald-700 to-black rounded-3xl p-8 text-white text-center shadow-2xl backdrop-blur-lg border border-white/10">
-          <div className="text-5xl mb-4">🎵</div>
-          <h3 className="text-lg font-bold mb-2">Music Vibes</h3>
-          <p className="text-sm text-white/80 mb-4">
-            Nothing is being played right now!
-          </p>
-          <div className="text-xs text-white/60">
-            Check back later for live Spotify updates
+        <div className="relative z-10 bg-gradient-to-br from-emerald-700 to-black rounded-3xl p-8 text-white shadow-2xl backdrop-blur-lg border border-white/10 min-h-[400px] flex flex-col justify-center">
+          <div className="text-center">
+            <div className="text-5xl mb-4">🎵</div>
+            <h3 className="text-lg font-bold mb-2">Music Vibes</h3>
+            <p className="text-sm text-white/80 mb-4">
+              Nothing is being played right now!
+            </p>
+            <div className="text-xs text-white/60">
+              Check back later for live Spotify updates
+            </div>
           </div>
         </div>
       </div>
