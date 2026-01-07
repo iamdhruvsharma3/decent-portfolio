@@ -39,6 +39,7 @@ export async function GET(request: NextRequest) {
         code,
         redirect_uri,
       }),
+      cache: 'no-store',
     });
 
     if (!response.ok) {

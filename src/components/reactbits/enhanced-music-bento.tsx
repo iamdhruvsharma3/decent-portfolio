@@ -168,7 +168,14 @@ export function EnhancedMusicBento() {
   useEffect(() => {
     async function fetchSpotifyData() {
       try {
-        const response = await fetch("/api/spotify");
+        const response = await fetch(`/api/spotify?t=${Date.now()}`, {
+          method: 'GET',
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+          },
+          cache: 'no-store',
+        });
         if (response.ok) {
           const data = await response.json();
           setSpotifyData(data);

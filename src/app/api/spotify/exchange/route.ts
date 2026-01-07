@@ -41,6 +41,7 @@ export async function POST(req: Request) {
         "Content-Type": "application/x-www-form-urlencoded",
       },
       body: params.toString(),
+      cache: "no-store",
     });
 
     const data = await tokenRes.json();

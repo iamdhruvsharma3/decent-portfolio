@@ -20,6 +20,7 @@ const getAccessToken = async (): Promise<string> => {
       grant_type: 'refresh_token',
       refresh_token,
     }),
+    cache: 'no-store',
   });
 
   const text = await response.text();
@@ -51,8 +52,7 @@ const spotifyApi = async (endpoint: string) => {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
-      // Cache for 2 minutes to avoid hitting rate limits but keep data fresh
-      next: { revalidate: 120 }
+      cache: 'no-store',
     });
 
     // Handle 204 No Content (e.g., when nothing is playing)
